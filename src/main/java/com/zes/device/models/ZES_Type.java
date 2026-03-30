@@ -14,7 +14,6 @@ public abstract class ZES_Type
     protected boolean ZES_gv_hasPrevData = false;
     protected abstract void ZES_parseData(ZES_Data data, ResultSet resultSet) throws SQLException;
     abstract public ZES_Type ZES_saveRealTime() throws SQLException;
-    abstract public void ZES_saveLog();
 
     public ZES_Type(long timestamp, byte[] bytes, String ictNumber)
     {

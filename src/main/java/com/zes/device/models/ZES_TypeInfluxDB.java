@@ -20,8 +20,7 @@ public abstract class ZES_TypeInfluxDB extends ZES_Type
         ZES_gv_logTableName = "pms_real_data_" + type + "_log";
     }
 
-    @Override
-    public void ZES_saveLog()
+    protected void ZES_addInsertLogQuery(List<String> ZES_lv_queries)
     {
         // Log insert는 ZES_saveRealTime() 내 batch 쿼리로 처리
     }
