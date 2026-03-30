@@ -4,6 +4,8 @@ import com.zes.device.ZES_SQLGenerator;
 import com.zes.device.config.ZES_MysqlConfig;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ZES_Type3 extends ZES_TypeInfluxDB
 {
@@ -281,16 +283,22 @@ public class ZES_Type3 extends ZES_TypeInfluxDB
         )
         {
             ZES_parse(ZES_gv_DATA_MAP, ZES_lv_prevResultSet);
+            List<String> ZES_lv_queries = new ArrayList<>();
             if(ZES_gv_hasPrevData)
             {
-                ZES_SQLGenerator.update(ZES_lv_conn, ZES_gv_DATA_MAP, ZES_gv_tableName, ZES_gv_ictNumber, ZES_gv_timestamp);
+                String ZES_lv_updateQuery = ZES_SQLGenerator.getUpdateQuery(ZES_gv_DATA_MAP, ZES_gv_ictNumber, ZES_gv_tableName, ZES_gv_timestamp);
+                ZES_lv_queries.add(ZES_lv_updateQuery);
             }
             else
             {
-                ZES_SQLGenerator.insert(ZES_lv_conn, ZES_gv_DATA_MAP, ZES_gv_ictNumber, ZES_gv_tableName, ZES_gv_timestamp);
+                String ZES_lv_insertQuery = ZES_SQLGenerator.getInsertQuery(ZES_gv_DATA_MAP, ZES_gv_ictNumber, ZES_gv_tableName, ZES_gv_timestamp);
+                ZES_lv_queries.add(ZES_lv_insertQuery);
             }
+            ZES_addInsertLogQuery(ZES_lv_queries);
+            ZES_SQLGenerator.executeBatchQuery(ZES_lv_conn, ZES_lv_queries);
         }
-        catch (SQLException e) {
+        catch (SQLException e)
+        {
             ZES_parse(ZES_gv_DATA_MAP, null);
             ZES_handleException(e);
         }
@@ -298,5 +306,11 @@ public class ZES_Type3 extends ZES_TypeInfluxDB
         {
             return this;
         }
+    }
+
+    @Override
+    protected ZES_Data[] ZES_getDataMap()
+    {
+        return ZES_gv_DATA_MAP;
     }
 }

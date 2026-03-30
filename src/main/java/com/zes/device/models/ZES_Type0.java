@@ -253,6 +253,7 @@ public class ZES_Type0 extends ZES_TypeInfluxDB
                 ZES_lv_queries.add(insertQuery);
             }
             ZES_addInsertErrorNumQuery(ZES_lv_queries);
+            ZES_addInsertLogQuery(ZES_lv_queries);
             ZES_SQLGenerator.executeBatchQuery(ZES_lv_conn, ZES_lv_queries);
 
         }
@@ -277,5 +278,11 @@ public class ZES_Type0 extends ZES_TypeInfluxDB
             queries.add(ZES_lv_insertErrorNumQuery);
         }
         return queries;
+    }
+
+    @Override
+    protected ZES_Data[] ZES_getDataMap()
+    {
+        return ZES_gv_DATA_MAP;
     }
 }
