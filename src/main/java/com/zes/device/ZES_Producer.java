@@ -22,14 +22,14 @@ public class ZES_Producer implements Runnable
     private static final int ZES_gv_ICT_NUMBER_OFFSET = 10;
     private static final int ZES_gv_ICT_NUMBER_SIZE = 8;
 
-    private final BlockingQueue<ZES_TypeInfluxDB> queueType0;
-    private final BlockingQueue<ZES_TypeInfluxDB> queueType1;
-    private final BlockingQueue<ZES_TypeInfluxDB> queueType2;
-    private final BlockingQueue<ZES_TypeInfluxDB> queueType3;
-    private final BlockingQueue<ZES_TypeInfluxDB> queueType4;
+    private final BlockingQueue<ZES_TypeMySQL> queueType0;
+    private final BlockingQueue<ZES_TypeMySQL> queueType1;
+    private final BlockingQueue<ZES_TypeMySQL> queueType2;
+    private final BlockingQueue<ZES_TypeMySQL> queueType3;
+    private final BlockingQueue<ZES_TypeMySQL> queueType4;
     private final int threadNo;
     private final ServerSocket serverSocket;
-    public ZES_Producer(BlockingQueue<ZES_TypeInfluxDB> queueType0, BlockingQueue<ZES_TypeInfluxDB> queueType1, BlockingQueue<ZES_TypeInfluxDB> queueType2, BlockingQueue<ZES_TypeInfluxDB> queueType3, BlockingQueue<ZES_TypeInfluxDB> queueType4, int threadNo, ServerSocket serverSocket)
+    public ZES_Producer(BlockingQueue<ZES_TypeMySQL> queueType0, BlockingQueue<ZES_TypeMySQL> queueType1, BlockingQueue<ZES_TypeMySQL> queueType2, BlockingQueue<ZES_TypeMySQL> queueType3, BlockingQueue<ZES_TypeMySQL> queueType4, int threadNo, ServerSocket serverSocket)
     {
         this.queueType0 = queueType0;
         this.queueType1 = queueType1;
@@ -108,29 +108,22 @@ public class ZES_Producer implements Runnable
 
                     if(ZES_filterIctNumber(ZES_lv_ictNumber))
                     {
-                        System.out.println(" ZES_lv_infoType =>"+ ZES_lv_infoType);
-                        System.out.println(" ZES_lv_ictNumber =>"+ ZES_lv_ictNumber);
                         switch (ZES_lv_infoType)
                         {
                             case 0:
                                 queueType0.put(new ZES_Type0(ZES_lv_timestamp, ZES_lv_buffer, ZES_lv_ictNumber));
-//                            ZES_gv_logger.info("thread" + threadNo + " in queue : " + queueType0.size());
                                 break;
                             case 1:
                                 queueType1.put(new ZES_Type1(ZES_lv_timestamp, ZES_lv_buffer, ZES_lv_ictNumber));
-//                            ZES_gv_logger.info("thread" + threadNo + " in queue : " + queueType1.size());
                                 break;
                             case 2:
                                 queueType2.put(new ZES_Type2(ZES_lv_timestamp, ZES_lv_buffer, ZES_lv_ictNumber));
-//                            ZES_gv_logger.info("thread" + threadNo + " in queue : " + queueType2.size());
                                 break;
                             case 3:
                                 queueType3.put(new ZES_Type3(ZES_lv_timestamp, ZES_lv_buffer, ZES_lv_ictNumber));
-//                            ZES_gv_logger.info("thread" + threadNo + " in queue : " + queueType3.size());
                                 break;
                             case 4:
                                 queueType4.put(new ZES_Type4(ZES_lv_timestamp, ZES_lv_buffer, ZES_lv_ictNumber));
-//                            ZES_gv_logger.info("thread" + threadNo + " in queue : " + queueType4.size());
                                 break;
                             default:
                                 ZES_gv_logger.warning("Unknown info type: " + ZES_lv_infoType + " from ICT: " + ZES_lv_ictNumber);
@@ -170,7 +163,6 @@ public class ZES_Producer implements Runnable
 
     private static boolean ZES_validateCheckSum(byte[] dataBuffer)
     {
-//        return true;
         long ZES_lv_checkSum = 0;
         for (int i = 0; i < 510; i++)
         {

@@ -11,7 +11,6 @@ repositories {
 }
 
 dependencies {
-    implementation("com.influxdb:influxdb-client-java:6.9.0")
     runtimeOnly("com.mysql:mysql-connector-j:8.0.33")
     //4.0.3 working for java 1.8
     implementation("com.zaxxer:HikariCP:4.0.3")

@@ -1,6 +1,6 @@
 package com.zes.device;
 
-import com.zes.device.models.ZES_TypeInfluxDB;
+import com.zes.device.models.ZES_TypeMySQL;
 
 import java.util.concurrent.BlockingQueue;
 
@@ -8,9 +8,9 @@ import static com.zes.device.ZES_DeviceApplication.ZES_gv_logger;
 
 public class ZES_Consumer implements Runnable
 {
-    private final BlockingQueue<ZES_TypeInfluxDB> sharedQueue;
+    private final BlockingQueue<ZES_TypeMySQL> sharedQueue;
     private int threadNo;
-    public ZES_Consumer(BlockingQueue<ZES_TypeInfluxDB> sharedQueue, int threadNo)
+    public ZES_Consumer(BlockingQueue<ZES_TypeMySQL> sharedQueue, int threadNo)
     {
         this.sharedQueue = sharedQueue;
         this.threadNo = threadNo;
@@ -23,9 +23,8 @@ public class ZES_Consumer implements Runnable
         {
             try
             {
-//              ZES_gv_logger.info("thread" + threadNo + " out queue : " + sharedQueue.size());
-                ZES_TypeInfluxDB ZES_lv_typeBase = sharedQueue.take(); // Retrieve bytes from the corresponding blocking queue
-                ZES_lv_typeBase.ZES_saveRealTime().ZES_saveLog();
+                ZES_TypeMySQL ZES_lv_typeBase = sharedQueue.take(); // Retrieve bytes from the corresponding blocking queue
+                ZES_lv_typeBase.ZES_saveRealTime();
             }
             catch (InterruptedException e)
             {

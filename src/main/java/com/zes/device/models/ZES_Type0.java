@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ZES_Type0 extends ZES_TypeInfluxDB
+public class ZES_Type0 extends ZES_TypeMySQL
 {
     private static final ZES_Data[] ZES_gv_DATA_MAP =
     {
@@ -231,8 +231,7 @@ public class ZES_Type0 extends ZES_TypeInfluxDB
     @Override
     public ZES_Type0 ZES_saveRealTime()
     {
-        System.out.println("ZES_Type 0 => saveRealTime In =>"+ZES_gv_Type);
-        ZES_initPoint(ZES_gv_Type);
+        ZES_initLogTableName(ZES_gv_Type);
         try
         (
             Connection ZES_lv_conn = ZES_MysqlConfig.getConnection();
@@ -253,6 +252,7 @@ public class ZES_Type0 extends ZES_TypeInfluxDB
                 ZES_lv_queries.add(insertQuery);
             }
             ZES_addInsertErrorNumQuery(ZES_lv_queries);
+            ZES_addInsertLogQuery(ZES_lv_queries);
             ZES_SQLGenerator.executeBatchQuery(ZES_lv_conn, ZES_lv_queries);
 
         }
@@ -277,5 +277,11 @@ public class ZES_Type0 extends ZES_TypeInfluxDB
             queries.add(ZES_lv_insertErrorNumQuery);
         }
         return queries;
+    }
+
+    @Override
+    protected ZES_Data[] ZES_getDataMap()
+    {
+        return ZES_gv_DATA_MAP;
     }
 }

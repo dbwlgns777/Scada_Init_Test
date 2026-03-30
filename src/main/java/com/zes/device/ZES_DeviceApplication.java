@@ -1,6 +1,6 @@
 package com.zes.device;
 
-import com.zes.device.models.ZES_TypeInfluxDB;
+import com.zes.device.models.ZES_TypeMySQL;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,11 +31,11 @@ public class ZES_DeviceApplication
             System.exit(1);
         }
 
-        BlockingQueue<ZES_TypeInfluxDB> ZES_lv_queueType0 = new ArrayBlockingQueue<>(1000);
-        BlockingQueue<ZES_TypeInfluxDB> ZES_lv_queueType1 = new ArrayBlockingQueue<>(1000);
-        BlockingQueue<ZES_TypeInfluxDB> ZES_lv_queueType2 = new ArrayBlockingQueue<>(1000);
-        BlockingQueue<ZES_TypeInfluxDB> ZES_lv_queueType3 = new ArrayBlockingQueue<>(1000);
-        BlockingQueue<ZES_TypeInfluxDB> ZES_lv_queueType4 = new ArrayBlockingQueue<>(1000);
+        BlockingQueue<ZES_TypeMySQL> ZES_lv_queueType0 = new ArrayBlockingQueue<>(1000);
+        BlockingQueue<ZES_TypeMySQL> ZES_lv_queueType1 = new ArrayBlockingQueue<>(1000);
+        BlockingQueue<ZES_TypeMySQL> ZES_lv_queueType2 = new ArrayBlockingQueue<>(1000);
+        BlockingQueue<ZES_TypeMySQL> ZES_lv_queueType3 = new ArrayBlockingQueue<>(1000);
+        BlockingQueue<ZES_TypeMySQL> ZES_lv_queueType4 = new ArrayBlockingQueue<>(1000);
         ExecutorService ZES_lv_producerThreadPool = Executors.newFixedThreadPool(ZES_gv_NUM_PRODUCER_THREADS);
         ExecutorService ZES_lv_consumerThreadPool = Executors.newFixedThreadPool(ZES_gv_NUM_CONSUMER_THREADS);
 
